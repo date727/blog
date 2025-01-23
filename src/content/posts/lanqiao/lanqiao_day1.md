@@ -3,7 +3,7 @@ title: 搞点python778——day1
 published: 2025-01-23
 description: 'a brief introduction to sys'
 image: 'lanqiao_1.jpg'
-tags: [Study,Python,]
+tags: [Study,Python,sys]
 category: 'Python'
 draft: false 
 lang: 'zh_CN'
@@ -12,7 +12,7 @@ lang: 'zh_CN'
 u1s1感觉python学到一半现在重新拿起来的感觉真的很不好受……类都没学到，我恨医学……
 总是要开始的，就成为我的第二篇博客8。
 # 标准库sys
-有看到过但是似乎没什么影响就没搞懂的两个东西，今天好好搞明白。
+有看到过但是似乎没什么影响就没搞懂的东西，今天好好搞明白。
 >“sys”即“system”，“系统”之意。该模块提供了一些接口，用于访问 Python 解释器自身使用和维护的变量，同时模块中还提供了一部分函数，可以与解释器进行比较深度的交互。
 
 Let's start.

@@ -114,7 +114,7 @@ export default defineConfig({
     ],
   },
   vite: {
-	assetsInclude: ['src/content/posts/lanqiao/example.zip'],
+	assetsInclude: ['src/content/posts/lanqiao/example.zip','src/content/posts/python_corner/example.py'],
     build: {
       rollupOptions: {
         onwarn(warning, warn) {
