@@ -34,8 +34,8 @@ eg.爬楼梯问题
   1. 从 n-1 阶楼梯爬 1 阶上来
   2. 从 n-2 阶楼梯爬 2 阶上来
 
-定义f(n)表示n阶楼梯总共的方法数。
-可以总结出：**f(n) = f(n-1) + f(n-2)**
+​	定义f(n)表示n阶楼梯总共的方法数。
+​	可以总结出：**f(n) = f(n-1) + f(n-2)**
 
 - 初始条件
 
@@ -61,7 +61,7 @@ $$
   但是，调试着玩的时候就可能会出现：
   
   ```
-  RecursionError: maximum recursion depth exceeded while calling a Python objec
+  RecursionError: maximum recursion depth exceeded while calling a Python object
   ```
 
   原因：Python默认递归调用深度为1000（即最多递归调用1000次），也就是说n稍微大一点就会炸。虽然可以使用sys修改默认的递归深度，但是治标不治本。并且亲测，输入45就等了很久没出结果，考场上肯定是不敢用的。
@@ -74,30 +74,30 @@ $$
   
     首先我们来看一句代码（别问为什么看，问就是我发现自己不会这么写）：
   
-```
+    ```
     dp=[0]*(n+1)
-```
+    ```
 
-​	这行代码可以创建一个名为dp列表，列表中的元素个数为n+1，初始化所有元素都为0。
+	这行代码可以创建一个名为dp列表，列表中的元素个数为n+1，初始化所有元素都为0。
 
-​	下面我们来改写一下之前的代码！
+	下面我们来改写一下之前的代码！
 
-```python
-def stairs(n):
-    if n == 1:
-        return 1
-    elif n == 2:
-        return 2
-    else:
-        dp = [0] * (n + 1)
-        dp[1] = 1
-        dp[2] = 2
-        for i in range(3, n + 1):
-            dp[i] = dp[i - 1] + dp[i - 2]
-        return dp[n]
-```
+	```
+  def stairs(n):
+      if n == 1:
+          return 1
+      elif n == 2:
+          return 2
+      else:
+          dp = [0] * (n + 1)
+          dp[1] = 1
+          dp[2] = 2
+          for i in range(3, n + 1):
+              dp[i] = dp[i - 1] + dp[i - 2]
+          return dp[n]
+  ```
 
-现在输入100，结果生成也很快，大大减少了时间复杂度。
+​	现在输入100，结果生成也很快，大大减少了时间复杂度。
 
 ## 动态规划原理
 
@@ -133,122 +133,122 @@ def stairs(n):
 
 1. 分析题目
 
-设状态f(n,m)表示A、B的最长子序列，n、m表示A中(0,n)的子串，m表示B中(0,n)的子串。
+    设状态f(n,m)表示A、B的最长子序列，n、m表示A中(0,n)的子串，m表示B中(0,n)的子串。
 
-我们考虑A、B的最后一个元素：设为x与y
+    我们考虑A、B的最后一个元素：设为x与y
 
-**如果x==y**：显然，**f(n,m) = f(n - 1,m - 1) + 1**
+    **如果x==y**：显然，**f(n,m) = f(n - 1,m - 1) + 1**
 
-**如果x!=y**：可能存在三种情况：
+    **如果x!=y**：可能存在三种情况：
 
-a.x存在于B中最长子序列的后面，最长子序列拉长了，f(n,m) = f(n,m - 1) = f(n - 1,m - 1) + 1
+    a.x存在于B中最长子序列的后面，最长子序列拉长了，f(n,m) = f(n,m - 1) = f(n - 1,m - 1) + 1
 
-​    同时有 f(n,m - 1) > f(n - 1,m)
+    ​    同时有 f(n,m - 1) > f(n - 1,m)
 
-b.y存在于A中最长子序列的后面，最长子序列拉长了，f(n,m) = f(n - 1,m) = f(n - 1,m - 1) + 1
+    b.y存在于A中最长子序列的后面，最长子序列拉长了，f(n,m) = f(n - 1,m) = f(n - 1,m - 1) + 1
 
-​    同时有 f(n,m - 1) < f(n - 1,m)
+    ​    同时有 f(n,m - 1) < f(n - 1,m)
 
-c.x、y不影响最长子序列的长度，f(n,m) = f(n - 1,m) = f(n,m - 1) = f(n - 1,m - 1)
+    c.x、y不影响最长子序列的长度，f(n,m) = f(n - 1,m) = f(n,m - 1) = f(n - 1,m - 1)
 
-因此可以得出：**f(n,m)=max{f(n - 1,m),f(n,m - 1)}**
+    因此可以得出：**f(n,m)=max{f(n - 1,m),f(n,m - 1)}**
 
-从这里也可以得到递归结构。
+    从这里也可以得到递归结构。
 
 
 
 2. 初始化问题
 
-在遇到第一个相同的之前，没有最长子序列，因此设置为0就行。
+   在遇到第一个相同的之前，没有最长子序列，因此设置为0就行。
 
 
 
 3. 子序列求解
 
-最终f(n,m)为子序列的长度，那么子序列如何求解呢？由于前面我们是从结尾开始讨论，现在我们也从结尾开始思考：假设最长子系列为line。
+    最终f(n,m)为子序列的长度，那么子序列如何求解呢？由于前面我们是从结尾开始讨论，现在我们也从结尾开始思考：假设最长子系列为line。
 
-**如果x==y**：显然，line += x 或 line += y。
+    **如果x==y**：显然，line += x 或 line += y。
 
-**如果x!=y**：可能存在三种情况：
+    **如果x!=y**：可能存在三种情况：
 
-a.f(n,m) = f(n,m - 1) = f(n - 1,m - 1) + 1，也就是 f(n,m - 1) > f(n - 1,m)时，x存在于B中最长子序列的后面。
+    a.f(n,m) = f(n,m - 1) = f(n - 1,m - 1) + 1，也就是 f(n,m - 1) > f(n - 1,m)时，x存在于B中最长子序列的后面。
 
-我们下一步会让x加入line中，那就让下标m递减，直到结尾的字符等于x；
+    我们下一步会让x加入line中，那就让下标m递减，直到结尾的字符等于x；
 
-b.f(n,m) = f(n - 1,m) = f(n - 1,m - 1) + 1，也就是 f(n,m - 1) < f(n - 1,m)时，y存在于A中最长子序列的后面
+    b.f(n,m) = f(n - 1,m) = f(n - 1,m - 1) + 1，也就是 f(n,m - 1) < f(n - 1,m)时，y存在于A中最长子序列的后面
 
-我们下一步会y加入line中，那就让下标n递减，直到结尾的字符等于y；
+    我们下一步会y加入line中，那就让下标n递减，直到结尾的字符等于y；
 
-c.f(n,m) = f(n - 1,m) = f(n,m - 1) = f(n - 1,m - 1)，x、y都不在子序列中，则下标都递减。
+    c.f(n,m) = f(n - 1,m) = f(n,m - 1) = f(n - 1,m - 1)，x、y都不在子序列中，则下标都递减。
 
 
 
 4. 具体代码实现
 
-这又开辟出了本人的知识盲点（）C语言中有二维数组，那么Python中有什么呢？
+    这又开辟出了本人的知识盲点（）C语言中有二维数组，那么Python中有什么呢？
 
-答案就是：二维列表（(*^_^*)医学你到底教了什么）。
+    答案就是：二维列表（(*^_^*)医学你到底教了什么）。
 
-我们来看一行代码：
+    我们来看一行代码：
 
-```
-dp = [[0] * (n + 1) for _ in range(m + 1)]
-```
+    ```
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    ```
 
-可以理解为：对于每个 m + 1 中的数字，创建一个长度为 n + 1 的列表，并将每个元素初始化为0。由此就构造了一个 m + 1 行， n + 1 列的二维列表，其中每个元素都被初始化为0。
+    可以理解为：对于每个 m + 1 中的数字，创建一个长度为 n + 1 的列表，并将每个元素初始化为0。由此就构造了一个 m + 1 行， n + 1 列的二维列表，其中每个元素都被初始化为0。
 
-访问每个元素的方式和C语言也相同。
+    访问每个元素的方式和C语言也相同。
 
-由此写代码如下：
+    由此写代码如下：
 
-```
-import sys
-def sequence(n,m):
-    dp =  [[0] * (m+1) for _ in range(n + 1)]
-    for i in range(1, n+1):
-        for j in range(1, m+1):
+    ```
+    import sys
+    def sequence(n,m):
+        dp =  [[0] * (m+1) for _ in range(n + 1)]
+        for i in range(1, n+1):
+            for j in range(1, m+1):
+                if a[i-1]==b[j-1]:
+                    dp[i][j] = dp[i-1][j-1] + 1
+                else:
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+        line = ""
+        i=n
+        j=m
+        while i>0 and j>0:
             if a[i-1]==b[j-1]:
-                dp[i][j] = dp[i-1][j-1] + 1
+                line += a[i-1]
+                i-=1
+                j-=1
+            elif dp[i-1][j]>dp[i][j-1]:
+                i-=1
+            elif dp[i-1][j]<dp[i][j-1]:
+                j-=1
             else:
-                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
-    line = ""
-    i=n
-    j=m
-    while i>0 and j>0:
-        if a[i-1]==b[j-1]:
-            line += a[i-1]
-            i-=1
-            j-=1
-        elif dp[i-1][j]>dp[i][j-1]:
-            i-=1
-        elif dp[i-1][j]<dp[i][j-1]:
-            j-=1
-        else:
-            i-=1
-            j-=1
-    return line
+                i-=1
+                j-=1
+        return line
+    
+    input = lambda: sys.stdin.readline().strip()
+    a, b = input(), input()
+    n = len(a)
+    m = len(b)
+    Str=sequence(n,m)
+    reversed_s=Str[::-1]  #也可以修改元素进入line的方式
+    print(reversed_s)
+    
+    ```
 
-input = lambda: sys.stdin.readline().strip()
-a, b = input(), input()
-n = len(a)
-m = len(b)
-Str=sequence(n,m)
-reversed_s=Str[::-1]  #也可以修改元素进入line的方式
-print(reversed_s)
+    测试输入：
 
-```
+    ```
+    AYGKBRDJ
+    GESCTBLIFRJV
+    ```
 
-测试输入：
+    得到输出：
 
-```
-AYGKBRDJ
-GESCTBLIFRJV
-```
-
-得到输出：
-
-```
-GBRJ
-```
+    ```
+    GBRJ
+    ```
 
 动态规划有多种题型，像背包dp、线性dp、记忆性搜素等等，之后再进入更深入的学习！:)
