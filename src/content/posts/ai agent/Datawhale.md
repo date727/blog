@@ -51,7 +51,7 @@ Datawhale的这次活动跟之前一样，即便是对AI领域理得没有那么
 
 1. 进入创建主页：
 
-打开链接https://tbox.alipay.com/pro-about，点击“使用专业版”，扫码登陆，同意授权与协议。
+打开[链接](https://tbox.alipay.com/pro-about)，点击“使用专业版”，扫码登陆，同意授权与协议。
 
 ![tbox](tbox.png)
 
