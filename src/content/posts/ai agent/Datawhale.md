@@ -24,7 +24,7 @@ Datawhale的这次活动跟之前一样，即便是对AI领域理得没有那么
 
 在前OpenAI应用研究主管翁丽莲(Lilian Weng)所撰写的博客《LLM Powered Autonomous Agents》中，Agents= LLM + memory + planning skills + tool use，即大语言模型、记忆、任务规划、工具使用的集合。如果用文章中的一句话描述Agent，我想用“a powerful general problem solver”（强大的一般问题解决者）
 
-![agent](D:\git_blog\blog\src\content\posts\ai agent\Agents.png)
+![agent](Agents.png)
 
 对于四个部分的介绍：
 
@@ -53,49 +53,49 @@ Datawhale的这次活动跟之前一样，即便是对AI领域理得没有那么
 
 打开链接https://tbox.alipay.com/pro-about，点击“使用专业版”，扫码登陆，同意授权与协议。
 
-![tbox](D:\git_blog\blog\src\content\posts\ai agent\tbox.png)
+![tbox](tbox.png)
 
-![](D:\git_blog\blog\src\content\posts\ai agent\tbox2.png)
+![](tbox2.png)
 
 2. 创建应用： 
 
 点击“新建应用”，创建“对话型应用”，填写名称，点击“确定”进入新的界面。这里填入“万能文章生成助手”作为示例。
 
-![](D:\git_blog\blog\src\content\posts\ai agent\tbox3.png)
+![](tbox3.png)
 
 3. 能力配置：
 
 在新的界面中，在中间“角色与指令”处填写AI Agent的能力，这里填入“万能文章生成助手”，点击“AI生成”，能够对“角色与指令”中的内容进行优化，包括“角色”、“技能”、“限制”等部分，同时可以在窗口内进行修改，使得AI Agent的能力更加明确与个性化。点击“应用“。在右侧可以简单尝试一下AI Agent的使用与生成效果。最后点击”发布“与”确认发布“。
 
-![](D:\git_blog\blog\src\content\posts\ai agent\tbox5.png)
+![](tbox5.png)
 
-![](D:\git_blog\blog\src\content\posts\ai agent\tbox4.png)
+![](tbox4.png)
 
 4. 平台发布
 
 在新的页面中，可以选择不同平台进行发布。例如选择”Web服务“，开启服务状态，点击”预览”，就可以在“访问地址”对应的Web界面中使用自己的AI Agent了！
 
-![](D:\git_blog\blog\src\content\posts\ai agent\tbox6.png)
+![](tbox6.png)
 
-![](D:\git_blog\blog\src\content\posts\ai agent\tbox7.png)
+![](tbox7.png)
 
 ### 我们制作的AI Agent完整吗？
 
 如你所见，缺少了记忆能力、工具使用能力。进一步探索支付宝百宝箱，我们才能制作出完整的Agent。例如，在模型配置阶段，我们能配置的能力远多于“角色与指令”。
 
-![](D:\git_blog\blog\src\content\posts\ai agent\tbox8.png)
+![](tbox8.png)
 
 例如在“插件”中，提供了丰富的插件选择。比如“arXiv论文搜索”，可以通过关键词搜索论文，打造一个属于自己的“知网”AI Agent。只需点击“添加”即可，操作简单。
 
-![](D:\git_blog\blog\src\content\posts\ai agent\tbox11.png)
+![](tbox11.png)
 
 同时，我们可以让AI Agent更加个性化。比如我们加入“聊天背景图片”，上传一张自己心仪的图像。
 
 
-![](D:\git_blog\blog\src\content\posts\ai agent\tbox9.png)
+![](tbox9.png)
 
 就可以得到更加精美的界面。
 
-![](D:\git_blog\blog\src\content\posts\ai agent\tbox10.png)
+![](tbox10.png)
 
 以上就是使用支付宝百宝箱创建第一个Agent的介绍:)
