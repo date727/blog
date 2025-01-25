@@ -19,7 +19,7 @@ lang: 'zh_CN'
 - 变量
 编写代码如下：
 
-```
+```python
 name = "Ryuhana"
 print(f"Hello, {name}!") 
 ```
@@ -33,7 +33,7 @@ Hello, Ryuhana!
 - 表达式求值
 编写代码如下：
 
-```
+```python
 a = 10
 b = 20
 print(f"The sum of {a} and {b} is {a + b}")
@@ -48,7 +48,7 @@ The sum of 10 and 20 is 30
 - 数据结构
 以列表为例
 
-```
+```python
 list=[1,2,3,4,5]
 print(f"{list[1]}+{list[2]}={list[1]+list[2]}")
 ```
@@ -62,7 +62,7 @@ print(f"{list[1]}+{list[2]}={list[1]+list[2]}")
 - 函数调用
 编写代码如下：
 
-```
+```python
 def max(a,b):
     if a>b:
         return a
@@ -83,7 +83,7 @@ The bigger num between 10 and 20 is 20
 **浮点数保留小数点**(基本上也只会考到这个)
 编写代码如下：
 
-```
+```python
 r = 2
 pi = 3.1415926
 print(f"The area of the circle is: {pi*r*r:.2f}")
@@ -98,9 +98,8 @@ The area of the circle is: 12.57
 **指定字段宽度和对齐**
 很喜欢的例子：
 
-```
+```python
 print(f"{'Left':<10} | {'Center':^10} | {'Right':>10}")
-
 ```
 
 输出：
@@ -120,7 +119,7 @@ Python的一个内置函数，能够根据提供的**函数**对指定的序列�
 - 函数有一个形参
 第一个参数 function 以参数序列中的每一个元素调用 function 函数。比如：
 
-```
+```python
 def func(x):
     return 3*x
 print(list(map(func,[1,2,3,4,5])))
@@ -135,7 +134,7 @@ print(list(map(func,[1,2,3,4,5])))
 - 函数有多个形参
 多个列表，对应位置的列表数据进行相加。空缺的位置用**None**填补，可能会报错。例如：
 
-```
+```python
 print(list(map(lambda x,y: x*y, [1, 2, 3, 4, 5],[1, 2, 3, 4, 5])))
 ```
 执行效果是1，2，3，4，5的平方：

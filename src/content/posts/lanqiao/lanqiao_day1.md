@@ -128,7 +128,7 @@ Let's start.
    ```
 
    在参赛过程中如果每次都写那么长一段还是太费时间了，所以可以在每个程序的开头写上两行：
-   ```
+   ```python
    import sys
    input = lambda:sys.stdin.readline().strip()
    ```
@@ -151,7 +151,7 @@ Let's start.
    - sys.stdout.write()：输出字符串，需要手动添加换行符（大型巨婴）；
    - sys.stdout.flush()：程序输出的数据往往先存储在一个叫做缓冲区的内存区域里，等缓冲区满了或者满足某些条件时被一次性输出到终端。sys.stdout.flush() 的作用就是强制把缓冲区里的数据立即输出到终端。主要用于在需要实时看到输出结果的场景中。
    我们编写代码如下：
-   ```
+   ```python
    import sys
    lines=["25%","50%","75%","100%"]
    for i in lines:
