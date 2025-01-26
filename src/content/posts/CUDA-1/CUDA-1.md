@@ -55,7 +55,7 @@ CUDA具有多维能力。
 
 ## PORTING TO CUDA
 
-- GPU加速编程的核心理念：CPU与GPU协同工作，通过双向的高性能总线**(PCI Express or NVLink)**相互连接。
+- GPU加速编程的核心理念：CPU与GPU协同工作，通过双向的高性能总线（**PCI Express or NVLink**）相互连接。
 
 GPU的确运行着一种操作系统，但是不是Linux or Windows，该系统只用于管理GPU资源。
 
@@ -153,7 +153,7 @@ mykernerl<<<1,1>>>();
 add<<<n,1>>>();
 ```
 
-n：向量的长度，对应CUDA运行时处理n个实例、n个工作单元、n个“块(block)”
+n：向量的长度，对应CUDA运行时处理n个实例、n个工作单元、n个“块（**block**）”
 
 1：线程数量，即每个块包含一个线程
 
