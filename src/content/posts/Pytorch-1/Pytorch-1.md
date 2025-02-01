@@ -3,7 +3,7 @@ title: 学习深度学习——Numpy基础
 published: 2025-01-27
 description: 'Study Numpy Basic Syntax'
 image: 'Pytorch_1.jpg'
-tags: [Study,Python,Deep Learning]
+tags: [Study,Python,Deep Learning,Pytorch]
 category: 'Deep Learning'
 draft: false 
 lang: 'zh_CN'
