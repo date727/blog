@@ -114,7 +114,7 @@ export default defineConfig({
     ],
   },
   vite: {
-	assetsInclude: ['src/content/posts/lanqiao/example.zip','src/content/posts/python_corner/example.py','src/content/posts/Dynamic Programming/Dynamic Programming.zip','src/content/posts/Pytorch-1/numpy_example.py','src/content/posts/Dynamic_Programming-2/dp-1.zip','src/content/posts/Pytorch-2/tensor_example.py'],
+	assetsInclude: ['src/content/posts/lanqiao/example.zip','src/content/posts/python_corner/example.py','src/content/posts/Dynamic Programming/Dynamic Programming.zip','src/content/posts/Pytorch-1/numpy_example.py','src/content/posts/Dynamic_Programming-2/dp-1.zip','src/content/posts/Pytorch-2/tensor_example.py','src/content/posts/queue/queue.zip','src/content/posts/Dynamic_Programming-3/dp3.zip'],
     build: {
       rollupOptions: {
         onwarn(warning, warn) {
