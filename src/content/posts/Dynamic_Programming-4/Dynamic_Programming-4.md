@@ -1,7 +1,7 @@
 ---
 title: 搞点Python778——day5
 published: 2025-02-07
-description: '"Essentially solved the knapsack problem!"'
+description: 'Essentially solved the knapsack problem!'
 image: 'dp4.jpg'
 tags: [Study,Python,Dynamic Programming]
 category: 'Python'
