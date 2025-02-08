@@ -3,7 +3,7 @@ title: 搞点Python778——day4
 published: 2025-01-29
 description: 'In-depth Study of the Multiple-Knapsack Problem'
 image: 'dp3.jpg'
-tags: [Study,Python,Dynamic_Programming]
+tags: [Study,Python,Dynamic Programming]
 category: 'Python'
 draft: false 
 lang: 'zh_CN'
