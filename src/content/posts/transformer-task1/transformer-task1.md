@@ -9,6 +9,8 @@ draft: false
 lang: 'zh_CN'
 ---
 
+在开头放一下[课程资源](http://www.datawhale.cn/learn/summary/87)。
+
 # 序列到序列（Seq2Seq）模型
 
 ## 由来
