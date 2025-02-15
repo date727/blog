@@ -1,7 +1,7 @@
 ---
 title: Datawhale学习活动-fun-transformer——task1
 published: 2025-02-12
-description: '"Learning Summary of Task-1'
+description: 'Learning Summary of Task-1'
 image: 'task1.jpg'
 tags: [Study,Transformer]
 category: 'Transformer'
