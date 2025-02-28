@@ -3,7 +3,7 @@ title: 搞点Python778——day3
 published: 2025-01-27
 description: 'Two Basic Types of Knapsack Problems'
 image: 'Dynamic_Programming-2.jpg'
-tags: [Study,Python,Dynamic Programming,背包dp]
+tags: [Study,Python,Dynamic Programming,]
 category: 'Python'
 draft: false 
 lang: 'zh_CN'
