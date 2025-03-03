@@ -230,13 +230,13 @@ print(ans)
 
 ## 2025/3/2
 
-- 回文字符串
+- [回文字符串](https://www.lanqiao.cn/problems/19718/learning/?page=1&first_category_id=1&tags=%E6%9E%9A%E4%B8%BE,%E6%A8%A1%E6%8B%9F,%E5%89%8D%E7%BC%80%E5%92%8C,%E5%B7%AE%E5%88%86,%E4%BA%8C%E5%88%86,%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2,%E8%B4%AA%E5%BF%83,%E4%BD%8D%E8%BF%90%E7%AE%97,%E5%8F%8C%E6%8C%87%E9%92%88&tag_relation=union&sort=difficulty&asc=1)
 
 我真的服了到底是谁在说这个题目简单。算了可能是我真的菜吧。Python罕见地把时间要求定在10s了，所以说哪里简单了我就想问。
 
 ### tag
 
-
+模拟，字符串
 
 ### 题目思路
 
@@ -288,4 +288,49 @@ for i in range(t):
       print(f"Yes")
     else:
       print(f"No")
+```
+
+2025/3/3
+
+- [最优操作](https://www.lanqiao.cn/problems/3850/learning/?page=1&first_category_id=1&tags=%E6%9E%9A%E4%B8%BE,%E6%A8%A1%E6%8B%9F,%E5%89%8D%E7%BC%80%E5%92%8C,%E5%B7%AE%E5%88%86,%E4%BA%8C%E5%88%86,%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2,%E8%B4%AA%E5%BF%83,%E4%BD%8D%E8%BF%90%E7%AE%97,%E5%8F%8C%E6%8C%87%E9%92%88&tag_relation=union&sort=difficulty&asc=1)
+
+这个貌似是很典型的一个优先队列的题目，我第一次敲完提交之后，5个样例超时了。
+
+### tag
+
+贪心，优先队列
+
+### 题目思路
+
+因为觉得时间应该是都花在了put和get上面，就想到用什么办法限制put和get的使用。综合来看贪心的使用就是，最小的数字如果比要加入的y小，那么就可以换，之前的做法是无论如何都可以放进去，这样时间花得多也正常。题干中的样例，第一个操作其实换掉中间的1是没问题的，这可能也是一个误导的点。
+
+编程实现如下：
+
+```python
+import os
+import sys
+import queue
+input = lambda:sys.stdin.readline().strip()
+n,m = map(int , input().split())
+ls = list(map(int , input().split()))
+pq= queue.PriorityQueue()
+for i in ls:
+  pq.put((i,i))
+for i in range(m):
+  flag = 0
+  x,y = map(int , input().split())
+  for j in range(x):
+    couple = pq.get()
+    if couple[0] >= y:
+      pq.put(couple)
+      break
+    else:
+      flag += 1
+  for i in range(flag):
+    pq.put((y,i))
+sum = 0
+for i in range(n):
+  x = pq.get()
+  sum += x[0]
+print(sum)
 ```
