@@ -334,3 +334,126 @@ for i in range(n):
   sum += x[0]
 print(sum)
 ```
+
+## 2025/3/4
+
+好吧这个也是3.5补的，但是3.3怎么没刷题……不管了。3.4写了洛谷的最大正方形，记下来是3.5
+
+## 2025/3/5
+
+- [大衣的异或回文对](https://www.lanqiao.cn/problems/3845/learning/?page=1&first_category_id=1&tags=%E6%9E%9A%E4%B8%BE,%E6%A8%A1%E6%8B%9F,%E5%89%8D%E7%BC%80%E5%92%8C,%E5%B7%AE%E5%88%86,%E4%BA%8C%E5%88%86,%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2,%E8%B4%AA%E5%BF%83,%E4%BD%8D%E8%BF%90%E7%AE%97,%E5%8F%8C%E6%8C%87%E9%92%88&tag_relation=union&sort=difficulty&asc=1)
+
+因为一直没做过Python的位运算，所以现在来看一下。今天学的前缀树，思考着面向对象是不是还是要学一下。遇事不决问deepseek（）：
+
+![](1.png)
+
+好的好的（）。
+
+初看题目，如果是纯粹的暴力的话，那就是：
+
+1. 用组合思想，从数列里选两个；
+2. 直接用位运算的计算出来结果；
+3. 结果转换为字符串，看看是不是回文。
+
+### tag
+
+位运算，暴力
+
+### 题目分析
+
+根据题目信息，数字至多有2e4，所以组合的个数大致为2e8。对于Python，1s能执行e6数量级次循环，所以应该是会超时的。然后我看了C的题解，发现居然是真的暴力，用Python提交，哦豁超时了（）
+
+我能说什么呢……Python没有题解我更无语了。看了Python的评论区说是时间限制应该有问题，算了让它过去吧。复习一下位运算也是好的。
+
+我的代码：
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+n = int(input())
+ls = list(map(int, input().split()))
+sum = 0
+for i in range(n):
+    for j in range(i, n):
+        f = 0
+        num = ls[i] ^ ls[j]
+        judge = str(num)
+        length = len(judge)
+        for k in range(length//2):
+            if judge[k] != judge[length-1-k]:
+                f = 1
+                break
+        if f==0:
+            sum += 1
+print(sum)
+```
+
+今天也是翻了一下其他的题目，有趣的还是挺多的。
+
+（2025/3/6更新）上毛概的时候突然想到可以用itertools里面的组合的函数试一试！所以今天就试试看！
+
+代码如下：
+
+```python
+import sys
+from itertools import *
+input = lambda:sys.stdin.readline().strip()
+n = int(input())
+ls = list(map(int, input().split()))
+sum = 0
+for i in combinations_with_replacement(ls,2):
+    f = 0
+    num = i[0] ^ i[1]
+    judge = str(num)
+    length = len(judge)
+    for k in range(length // 2):
+        if judge[k] != judge[length - 1 - k]:
+            f = 1
+            break
+    if f == 0:
+        sum += 1
+print(sum)
+```
+
+还是超时了。我下了官方给的测试样例，一上来就是20000个数字，确实输出不来一点。这个世界对Python真的太不友好了。
+
+- [最小的或运算](https://www.lanqiao.cn/problems/4900/learning/?page=1&first_category_id=1&tags=%E4%BD%8D%E8%BF%90%E7%AE%97&tag_relation=union&sort=difficulty&asc=1)
+
+### tag
+
+位运算，思维
+
+### 题目分析
+
+重点自然是**x|a==x|b**这条信息，我们先用样例输入分析:
+
+```python
+4 5
+```
+
+4的二进制为**100**，5的二进制为**101**，要使或运算结果相同，并且最小：
+
+1. 考虑的二进制位数一定要是相同的（a、b、x），并且是两个数中间最大的那个。4、5比较巧合正好，所以x我们也要考虑3位；
+2. 如果a，b对应位置是相同的（1或0），对应x的位置就是0；如果不同，x的位置必须是1，使得x|a与x|b对应的位置都是1。
+
+其实结合第二点，我们就可以发现，符合**异或**的性质，进一步能够发现异或符合**最小**的性质。所以最终的结果就很显然了。
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+a,b = map()
+```
+
+## 2025/3/6
+
+- [「BJOI2018」求和](https://loj.ac/p/2491)
+
+用oi.wiki上的习题给自己选了一道树上前缀和的题目，作为练手吧。看了提交记录，Python最高就是60分，也是给自己降低预期了。
+
+### tag
+
+前缀树
+
+### 题目分析
+
+“希望多次询问这棵树”，很常见的标志。但是我读完了感觉，这跟前缀树有什么关系吗……我还是不够老练嘛……看了一下标签，确实涉及到最近祖先LCA的知识，所以先学然后再做这道题吧。
