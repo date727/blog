@@ -446,7 +446,7 @@ a,b = map()
 
 ## 2025/3/6
 
-- [「BJOI2018」求和](https://loj.ac/p/2491)
+- [「BJOI2018」求和](https://www.luogu.com.cn/problem/P4427)
 
 用oi.wiki上的习题给自己选了一道树上前缀和的题目，作为练手吧。看了提交记录，Python最高就是60分，也是给自己降低预期了。
 
