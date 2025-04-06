@@ -137,3 +137,72 @@ lang: 'zh_CN'
 ![](7.png)
 
 3. 频率改变可以通过拖动关键帧进行实现。
+
+## 2025.4.6
+
+没想到下一篇就已经来到了这个时候（）这段时间时间主要花在玩游戏上了（）但是迟迟无法起步的原因还是没有想法吧，其实有在怀疑自己是不是真的喜欢游戏，也尝试玩了很多的游戏，最终在Godot交流群里面找到了一个[比较完整的视频](https://www.bilibili.com/video/BV1SP411m7aj?vd_source=0f645f8562b98c379361eb83d3950ed9)，在昨天晚上的时候把序列为0的视频部分做完了。虽然版本有点过时，比如Tilemap已经被禁用了，自己探索了一会儿TilemapLayer的使用方法，但是整体上这个教程是很完整的，自己昨天做出来的时候也很开心，所以决定克服困难跟下去！
+
+昨天的进度如下：
+
+![](8.png)
+
+可以左右移动和跳跃。因为觉得视频中的素材太丑了所以用了brackeys一小时入门的素材。
+
+下一节课是讲Camera2D的使用！Camera2D的作用是**让玩家能够拓展到更多的界面**。
+
+### 编辑器设置
+
+编辑器->编辑器设置->补全->添加类型提示，对开发过程很友好。其实是我没听懂具体是怎么好的。巧的是，4.4版本是默认开启的。
+
+### 拓展Tilemap
+
+跟之前的步骤没区别
+
+### Camera2D
+
+在player节点下添加一个Camera2D节点。按住ctrl键，有助于对齐到已有的节点。调试可以发现，画面始终以玩家为中心。但是这样子其实观感和游戏体验感不好，背景一直在乱动。
+
+![](10.png)
+
+我们可以选择勾选Camera2D节点的Drag属性下的两个功能。这样玩家的小幅度移动不会导致Camera的移动。
+
+![](11.png)
+
+要可视化这个范围，可以在Editor里面勾选属性。
+
+![](12.png)
+
+如果要修改这个边框的大小，可以在Drag中修改对应数值，数值范围在0-1之间即可。
+
+![](13.png)
+
+让镜头移动变得更加平滑，启动Position Smoothing。
+
+![](14.png)
+
+之后就是解决视觉上的问题：相机会拍到空的地方。我们需要先用标尺测量底部的位置，我量出来是216px，对应设置limit属性。相应地也可以设置左边的边界，我是举一反三地天才嘿嘿嘿(bushi)。勾选一下Smoothed，跳到边界的时候就会舒服一些。我试了一下感觉不是很有必要，而且会露出来左边界，就不要了。
+
+![](15.png)
+
+卧槽迅速地被打脸了。边界计算可以用脚本实现。步骤我写在代码中了。
+
+```GDScript
+extends Node2D
+@onready var settings: TileMapLayer = $Settings
+@onready var camera_2d: Camera2D = $Player/Camera2D
+
+func _ready() -> void:
+	#得到一个矩形框，x、y以图块为单位，矩形框有以下两个属性
+	#position：左上角的坐标
+	#end：右下角的坐标
+	var used_area := settings.get_used_rect()
+	#将图块大小转化为像素大小
+	var tile_size := settings.tile_set.tile_size
+	#计算极限
+   #因为我要防止玩家从左边掉下去，所以在左边堆了个墙，左边的极限我是自己测量填进去的
+	camera_2d.limit_top = used_area.position.y * tile_size.y
+	camera_2d.limit_bottom = used_area.end.y * tile_size.y
+	camera_2d.limit_right = used_area.end.x * tile_size.x
+   #如果下落的位置会导致有一个初始的镜头移动，用下面这行代码取消掉
+   camera_2d.reset_smoothing()
+```
