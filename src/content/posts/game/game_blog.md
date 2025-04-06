@@ -208,3 +208,7 @@ func _ready() -> void:
 ```
 
 整体的功能就实现好了！还挺喜欢的嘻嘻，坚持！
+
+### TileMap
+
+在新版本里面已经变成了TileMapLayer，所以这里就变成了探索TileMapLayer相对应的功能。
