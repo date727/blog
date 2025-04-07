@@ -9,6 +9,8 @@ draft: false
 lang: 'zh_CN'
 ---
 
+[TOC]
+
 # 枚举
 
 ## 是什么？
@@ -671,3 +673,75 @@ print(Discreate(ls))
 ```
 
 结果一致。实际离散化可能从1开始。
+
+# 贪心
+
+## 定义
+
+局部最优就是整体最优
+
+eg.最少硬币支付问题
+
+1. 1，2，5可以，因为5>2+1；
+2. 1，2，4，5，6不可以，没有上述的性质。
+
+## 如何判断
+
+1. 找到最优子结构：问题的最优解包含子问题的最优解，也就是大问题分解成子问题；
+2. 性质选择。
+
+## 具体问题
+
+1. 经典贪心问题
+2. 举反例
+
+## 经典问题
+
+### 例题：[石子合并问题](https://www.lanqiao.cn/problems/545/learning/?page=1&first_category_id=1&tags=%E6%9E%9A%E4%B8%BE,%E6%A8%A1%E6%8B%9F,%E5%89%8D%E7%BC%80%E5%92%8C,%E5%B7%AE%E5%88%86,%E4%BA%8C%E5%88%86,%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2,%E8%B4%AA%E5%BF%83,%E4%BD%8D%E8%BF%90%E7%AE%97,%E5%8F%8C%E6%8C%87%E9%92%88&tag_relation=union&name=%E8%B0%88%E5%88%A4)
+
+**当下最少的策略**
+
+选择两个最小的进行合并
+
+**数据结构选择**
+
+最小堆heapq，每次获取最小的元素，这里就来学一下这个结构吧（老亡羊补牢人了）
+
+堆：分为大根堆与小根堆，使用数组表示的二叉树。在heapq库中，heapq使用的数据类型是Python的基本数据类型**list**。
+
+![alt text](image-1.png)
+
+用到的函数如下：其中的heap都是列表类型
+
+|函数|功能|
+|--|--|
+|heappush(heap,item)|往堆中添加新值，自动建立小根堆，一般在空列表上好用|
+|heapify(heap)|以线性时间将一个列表转化为小根堆|
+|heappop(heap)|返回堆中的最小值|
+|nlargest(num, heap)|从堆中取出num个数据，从最大的数据开始取，返回结果是一个列表|
+|nsmallest(num, heap)|从堆中取出num个数据，从最小的数据开始取，返回结果是一个列表|
+|merge(sorted(array_a), sorted(array_b))|将两个有序的列表合并成一个新的有序列表，返回结果是一个**迭代器**|
+|heappushpop(heap, num)|先将num添加到堆中，然后将堆顶的数据出堆|
+|heapreplace(heap, num)|先将堆顶的数据出堆，然后将num添加到堆中|
+
+进而实现这道题目：
+
+```python
+import sys
+import heapq
+input = lambda:sys.stdin.readline().strip()
+n = int(input())
+a = list(map(int ,input().split()))
+#转换成堆
+heapq.heapify(a)
+ans = 0
+while len(a) >= 2:
+    x = heapq.heappop(a)
+    y = heapq.heappop(a)
+    heapq.heappush(a,x+y)
+    ans += x+y
+print(ans)
+```
+
+### 例题：[分组问题](https://www.lanqiao.cn/problems/532/learning/?page=1&first_category_id=1&tags=%E6%9E%9A%E4%B8%BE,%E6%A8%A1%E6%8B%9F,%E5%89%8D%E7%BC%80%E5%92%8C,%E5%B7%AE%E5%88%86,%E4%BA%8C%E5%88%86,%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2,%E8%B4%AA%E5%BF%83,%E4%BD%8D%E8%BF%90%E7%AE%97,%E5%8F%8C%E6%8C%87%E9%92%88&tag_relation=union&name=%E7%BA%AA%E5%BF%B5%E5%93%81%E5%88%86%E7%BB%84)
+

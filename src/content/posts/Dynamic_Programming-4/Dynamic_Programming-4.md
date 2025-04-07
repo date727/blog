@@ -9,6 +9,8 @@ draft: false
 lang: 'zh_CN'
 ---
 
+[TOC]
+
 # 动态规划
 
 ## 背包DP

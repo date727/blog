@@ -8,6 +8,9 @@ category: 'Python'
 draft: false 
 lang: 'zh_CN'
 ---
+
+[TOC]
+
 # 开始准备蓝桥杯吧！
 u1s1感觉python学到一半现在重新拿起来的感觉真的很不好受……类都没学到，我恨医学……
 总是要开始的，就成为我的第二篇博客8。

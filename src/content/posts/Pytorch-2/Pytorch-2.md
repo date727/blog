@@ -9,6 +9,8 @@ draft: false
 lang: 'zh_CN'
 ---
 
+[TOC]
+
 之前本来是要至少把tensor学完的，学完numpy感觉人麻了，接着继续学吧。
 
 # 手册第一章

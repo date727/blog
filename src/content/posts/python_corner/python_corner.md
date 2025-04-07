@@ -8,6 +8,9 @@ category: 'Python'
 draft: false
 lang: 'zh_CN'
 ---
+
+[TOC]
+
 # 一些偶遇的知识
 开此帖记录一些学习过程中遇到的很妙的技巧！
 ## print(f"")

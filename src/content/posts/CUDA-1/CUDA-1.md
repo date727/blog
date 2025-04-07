@@ -9,6 +9,8 @@ draft: false
 lang: 'zh_CN'
 ---
 
+[TOC]
+
 # 你好，未来的ai架构师
 
 [课程](https://www.bilibili.com/video/BV1JJ4m1P7xW?vd_source=0f645f8562b98c379361eb83d3950ed9)
