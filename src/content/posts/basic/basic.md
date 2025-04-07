@@ -50,6 +50,8 @@ lang: 'zh_CN'
   - [经典问题](#经典问题)
     - [例题：石子合并问题](#例题石子合并问题)
     - [例题：分组问题](#例题分组问题)
+    - [例题：翻硬币问题](#例题翻硬币问题)
+    - [例题：数组乘积问题](#例题数组乘积问题)
 
 # 枚举
 
@@ -785,3 +787,24 @@ print(ans)
 
 ### 例题：[分组问题](https://www.lanqiao.cn/problems/532/learning/?page=1&first_category_id=1&tags=%E6%9E%9A%E4%B8%BE,%E6%A8%A1%E6%8B%9F,%E5%89%8D%E7%BC%80%E5%92%8C,%E5%B7%AE%E5%88%86,%E4%BA%8C%E5%88%86,%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2,%E8%B4%AA%E5%BF%83,%E4%BD%8D%E8%BF%90%E7%AE%97,%E5%8F%8C%E6%8C%87%E9%92%88&tag_relation=union&name=%E7%BA%AA%E5%BF%B5%E5%93%81%E5%88%86%E7%BB%84)
 
+类似：上船，船能够承载的质量一定
+
+**思路**
+
+从大的开始往前看，如果能找到合适的凑在一起，那么就凑，不能就单独为一组。
+
+为什么可以这样遍历【为什么可以这样贪心】？如果小的不和最大最合适的配合，那么跟别的搭配，浪费的空间一定是最大的
+
+### 例题：[翻硬币问题](https://www.lanqiao.cn/problems/209/learning/?page=1&first_category_id=1&tag_relation=union&name=%E7%BF%BB%E7%A1%AC%E5%B8%81)
+
+**思路**
+
+为了保证最终能够翻出来，从左往右翻就行。
+
+### 例题：数组乘积问题
+
+![alt text](image-2.png)
+
+**思路**
+
+a从小到大，b从大到小，两两配对。这个可以用数学的方法证明
