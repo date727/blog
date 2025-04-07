@@ -9,7 +9,26 @@ draft: false
 lang: 'zh_CN'
 ---
 
-[TOC]
+- [Attention机制](#attention机制)
+  - [产生背景](#产生背景)
+  - [Attention机制如何起作用？](#attention机制如何起作用)
+  - [分类：全局注意力与局部注意力](#分类全局注意力与局部注意力)
+    - [全局注意力](#全局注意力)
+    - [局部注意力](#局部注意力)
+    - [对比图示](#对比图示)
+- [Transformer概述](#transformer概述)
+  - [Transformer发展历程](#transformer发展历程)
+  - [Transformer模型概述](#transformer模型概述)
+  - [Transformer工作流程](#transformer工作流程)
+  - [Transformer对seq2seq模型的影响](#transformer对seq2seq模型的影响)
+  - [预训练与迁移学习](#预训练与迁移学习)
+    - [预训练](#预训练)
+    - [迁移学习](#迁移学习)
+- [Transformer vs CNN vs RNN](#transformer-vs-cnn-vs-rnn)
+  - [Q、K、V知识引入](#qkv知识引入)
+- [输入嵌入(Input Embedding)](#输入嵌入input-embedding)
+  - [词嵌入（Word Embedding）](#词嵌入word-embedding)
+  - [位置编码(Position Embedding)](#位置编码position-embedding)
 
 # Attention机制
 

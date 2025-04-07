@@ -9,6 +9,13 @@ draft: false
 lang: 'zh_CN'
 ---
 
+- [动手学AI Agent](#动手学ai-agent)
+  - [动手创建第一个Agent](#动手创建第一个agent)
+    - [AI Agent?](#ai-agent)
+    - [简单介绍一下支付宝百宝箱](#简单介绍一下支付宝百宝箱)
+    - [创建步骤](#创建步骤)
+    - [我们制作的AI Agent完整吗？](#我们制作的ai-agent完整吗)
+
 # 动手学AI Agent
 大二上快结束的时候报名了Datawhale的这个项目，之前也有报名定制专属大模型的课程，但是很遗憾没做完。这一次AI Agent的活动督促自己完成了，后面也进入了Demo Day进行分享，也算是拔出了心里的那根刺。
 

@@ -9,7 +9,11 @@ draft: false
 lang: 'zh_CN'
 ---
 
-[TOC]
+- [CUDA-1作业学习](#cuda-1作业学习)
+  - [终端命令](#终端命令)
+  - [Q1:hello.cu](#q1hellocu)
+  - [Q2:vector\_add.cu](#q2vector_addcu)
+  - [Q3:matrix\_mul.cu矩阵乘法](#q3matrix_mulcu矩阵乘法)
 
 # CUDA-1作业学习
 

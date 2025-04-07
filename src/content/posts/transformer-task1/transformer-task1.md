@@ -9,8 +9,23 @@ draft: false
 lang: 'zh_CN'
 ---
 
-[TOC]
-
+- [序列到序列（Seq2Seq）模型](#序列到序列seq2seq模型)
+  - [由来](#由来)
+  - [是什么？](#是什么)
+  - [特点](#特点)
+- [Encoder - Decoder模型](#encoder---decoder模型)
+  - [Seq2Seq与Encoder-Decoder的关系](#seq2seq与encoder-decoder的关系)
+  - [概念](#概念)
+  - [过程](#过程)
+    - [编码器（Encoder）](#编码器encoder)
+    - [解码器（Decoder）](#解码器decoder)
+    - [Seq2Seq模型的训练过程](#seq2seq模型的训练过程)
+  - [应用](#应用)
+  - [缺陷](#缺陷)
+- [Attention机制](#attention机制)
+  - [Attention机制如何解决信息丢失问题](#attention机制如何解决信息丢失问题)
+  - [Attention机制的核心工作：关注重点！](#attention机制的核心工作关注重点)
+  - [Attention机制的3大优点](#attention机制的3大优点)
 
 在开头放一下[课程资源](http://www.datawhale.cn/learn/summary/87)。
 

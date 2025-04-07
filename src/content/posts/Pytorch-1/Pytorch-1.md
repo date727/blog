@@ -9,7 +9,15 @@ draft: false
 lang: 'zh_CN'
 ---
 
-[TOC]
+- [学习深度学习](#学习深度学习)
+- [手册第一章](#手册第一章)
+  - [1.1 Pytorch简介](#11-pytorch简介)
+    - [Pytorch与Torch](#pytorch与torch)
+    - [介绍一下](#介绍一下)
+    - [对比PyTorch和Tensorflow](#对比pytorch和tensorflow)
+  - [1.2 Pytorch环境搭建](#12-pytorch环境搭建)
+  - [1.3 60分钟(不是哥们)快速入门 （官方）](#13-60分钟不是哥们快速入门-官方)
+    - [张量（Tensors）](#张量tensors)
 
 # 学习深度学习
 
