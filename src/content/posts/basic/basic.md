@@ -52,6 +52,25 @@ lang: 'zh_CN'
     - [例题：分组问题](#例题分组问题)
     - [例题：翻硬币问题](#例题翻硬币问题)
     - [例题：数组乘积问题](#例题数组乘积问题)
+- [双指针](#双指针)
+  - [是什么？](#是什么-3)
+  - [类型](#类型)
+  - [例题：美丽的区间](#例题美丽的区间)
+  - [例题：挑选子串](#例题挑选子串)
+- [二分](#二分)
+  - [是什么？](#是什么-4)
+  - [前提/核心](#前提核心)
+  - [例题：手算根号2](#例题手算根号2)
+  - [步骤](#步骤-1)
+  - [用途](#用途)
+    - [二分答案步骤](#二分答案步骤)
+  - [例题：分巧克力](#例题分巧克力)
+  - [例题：跳石头](#例题跳石头)
+  - [例题：肖恩的乘法表](#例题肖恩的乘法表)
+- [哈希](#哈希)
+  - [例题：两数之和](#例题两数之和)
+- [倍增](#倍增)
+- [位运算](#位运算)
 
 # 枚举
 
@@ -808,3 +827,337 @@ print(ans)
 **思路**
 
 a从小到大，b从大到小，两两配对。这个可以用数学的方法证明
+
+# 双指针
+
+## 是什么？
+
+进行区间操作时，利用两个下标同时遍历。
+
+## 类型
+
+1. 反向扫描：相遇或者满足某些条件的时候停止扫描
+
+有序数组、字符串
+
+![alt text](image-3.png)
+
+eg.分箱问题、回文字符串
+
+```python
+s = input()
+```
+
+2. 同向扫描：也叫做滑动窗口，维护一个[left,right]的区间
+
+![alt text](image-4.png)
+
+    - 左端点向右移动表示删除元素
+    - 右端点向右移动表示增加元素
+
+在尾部或者满足特殊条件时停止
+
+## 例题：[美丽的区间](https://www.lanqiao.cn/problems/1372/learning/?page=1&first_category_id=1&tags=%E6%9E%9A%E4%B8%BE,%E6%A8%A1%E6%8B%9F,%E5%89%8D%E7%BC%80%E5%92%8C,%E5%B7%AE%E5%88%86,%E4%BA%8C%E5%88%86,%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2,%E8%B4%AA%E5%BF%83,%E4%BD%8D%E8%BF%90%E7%AE%97,%E5%8F%8C%E6%8C%87%E9%92%88&tag_relation=union&name=%E7%BE%8E%E4%B8%BD%E7%9A%84%E5%8C%BA%E9%97%B4)
+
+用前缀和时间会爆掉，所以用双指针进行优化。
+
+**思路**
+
+遍历每一个左端点，右端点**不断向右移动**，恰好满足大于等于S的时候就是每个左端点最“美丽”的情况。
+
+这道题能用双指针的原因就在于**所有数字都是正数**，有点递增的味道。
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+n,s = map(int,input().split())
+ls = list(map(int,input().split()))
+l,r = 0,0
+tot = 0
+length = n
+#滑动窗口[l,r]，r不包含在区间中，用于表示下一个要加入的数字
+while l < n:
+    #不断扩展右端点，直至区间之和大于等于s
+    while r<n and tot < s:
+        tot += ls[r]
+        r+=1
+    #更新最美丽区间的长度，注意判断条件
+    if tot >= s:
+        length = min(length,r - l)
+    #更新左端点
+    tot -= ls[l]
+    l += 1
+if length == n:
+    length = 0
+print(length)
+```
+
+## 例题：[挑选子串](https://www.lanqiao.cn/problems/1621/learning/?page=1&first_category_id=1&tags=%E6%9E%9A%E4%B8%BE,%E6%A8%A1%E6%8B%9F,%E5%89%8D%E7%BC%80%E5%92%8C,%E5%B7%AE%E5%88%86,%E4%BA%8C%E5%88%86,%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2,%E8%B4%AA%E5%BF%83,%E4%BD%8D%E8%BF%90%E7%AE%97,%E5%8F%8C%E6%8C%87%E9%92%88&tag_relation=union&name=%E6%8C%91%E9%80%89%E5%AD%90%E4%B8%B2)
+
+1. 根据条件把数组变成01数组，用数字的和代表几个数满足。但是这种会增加时间消耗，也啥必要直接判断就行；
+2. 对于每个l，找到最小的r，r+1，r+2……n均为合法区间。
+
+编程实践如下：
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+n,m,k = map(int , input().split())
+ls = list(map(int , input().split()))
+ans = 0
+l,r = 0,0
+tot = 0
+while l < n:
+    while r < n and tot < k:
+        if ls[r] >= m:
+            tot += 1
+        r += 1
+    if tot >= k:
+        #注意这里r不包含在区间内
+        ans += n - r + 1
+    if ls[l] >= m:
+        tot -= 1
+    l += 1
+print(ans)
+```
+
+# 二分
+
+## 是什么？
+
+每次将搜索范围缩小一半，在O(logn)时间内找到正确答案
+
+## 前提/核心
+
+单调性
+
+## 例题：手算根号2
+
+1. 在[1,2]，计算1.5**2 = 2.25>2；
+2. 在[1,1.5]，计算1.25**2 < 2；
+……
+
+编写代码如下：
+
+```python
+l,r = 1,2
+#假设要求是精确到小数点后3位，说明区间长度小于等于1e-4，或者自己限定循环次数
+while r - l >= 1e-4:
+    mid = (l + r) / 2
+    #根据中点调整区间
+    if mid ** 2 > 2:
+        #调整为[l,mid]
+        r = mid
+    else:
+        #调整为[mid,r]
+        l = mid
+#保留小数输出位数
+print("{:.3f}".format(l))
+```
+## 步骤
+
+1. 候选区间[l,r]；
+2. 计算中点mid = (l+r) /2
+3. 判断中点是否合法，对应调整范围，循环直到区间满足特定条件。
+
+## 用途
+
+1. 查找**有序列表**中元素x的下标；
+2. 浮点二分：计算根号2；
+3. 二分答案：求解的问题具有单调性
+
+### 二分答案步骤
+
+题目具有单调性质，采用猜答案+二分
+
+1. 确定范围[l,r]，考虑最极端的情况就行；
+2. l <= r时：
+   - mid
+   - check(mid)
+   - mid合法：更新ans
+   - 根据合法调整区间：l = mid+1 or r = mid-1
+
+## 例题：[分巧克力](https://www.lanqiao.cn/problems/99/learning/?page=1&first_category_id=1&tags=%E6%9E%9A%E4%B8%BE,%E6%A8%A1%E6%8B%9F,%E5%89%8D%E7%BC%80%E5%92%8C,%E5%B7%AE%E5%88%86,%E4%BA%8C%E5%88%86,%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2,%E8%B4%AA%E5%BF%83,%E4%BD%8D%E8%BF%90%E7%AE%97,%E5%8F%8C%E6%8C%87%E9%92%88&tag_relation=union&name=%E5%88%86%E5%B7%A7%E5%85%8B%E5%8A%9B)
+
+这里的单调性在于，巧克力的边长越长，得到的数量越少
+
+```python
+n,k = map(int,input().split())
+#保存每块巧克力的信息
+a = []
+#这里写成1e5会导致ans变成小数
+max_num = 100000
+for i in range(n):
+    x,y = map(int,input().split())
+    a.append((x,y))
+
+#合法：边长为x，能够切出k块
+def check(x):
+    tot = 0
+    for i in range(n):
+        #这里记得加括号
+        tot += (a[i][0] // x) * (a[i][1] // x)
+    if tot >= k :
+        return True
+    else:
+        return False
+
+l,r = 1,max_num
+ans = 0
+while l <= r:
+    mid = (l+r) // 2
+    if check(mid):
+        #可以：求是不是有更大的
+        ans = mid
+        l = mid+1
+    else:
+        #不可以：缩小边长
+        r = mid -1
+print(ans)
+```
+
+## 例题：[跳石头](https://www.lanqiao.cn/problems/364/learning/?page=1&first_category_id=1&tags=%E6%9E%9A%E4%B8%BE,%E6%A8%A1%E6%8B%9F,%E5%89%8D%E7%BC%80%E5%92%8C,%E5%B7%AE%E5%88%86,%E4%BA%8C%E5%88%86,%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2,%E8%B4%AA%E5%BF%83,%E4%BD%8D%E8%BF%90%E7%AE%97,%E5%8F%8C%E6%8C%87%E9%92%88&tag_relation=union&name=%E8%B7%B3%E7%9F%B3%E5%A4%B4)
+
+特殊的标签：**最大值最小化**，**最小值最大化**，一般都是二分答案
+
+**至多**移走M块岩石，又可知，移除的石头越多，最短跳跃距离越大，具有单调性。
+
+因此我们对**最短跳跃距离**进行二分，思路是：猜最短跳跃距离为x，统计在这种情况下需要移走多少岩石。没有超过M块，就是合法的。
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+l,n,m = map(int ,input().split())
+a = []
+for i in range(n):
+    a.append(int(input()))
+
+#猜最短跳跃距离为x，统计在这种情况下需要移走多少岩石。没有超过M块，就是合法的。
+def check(x):
+    #移除的数量
+    tnt = 0
+    #last_p用于计算距离
+    last_p = 0
+    for i in range(n):
+        #如果这块石头跟上一块的距离小于x，移除这块石头
+        if a[i] - last_p < x:
+            tnt+=1
+        else:
+            last_p = a[i]
+    #终点石头特判，如果不符合就说明x不行
+    if l - last_p < x:
+        #注意这里老师讲的不对，如果最后这个不满足，直接加1，把倒数第二块石头移开就行了，因为倒数第二和倒数第三之间的距离满足大于等于x，所以不用再做别的验证
+        tnt+=1
+    #确保移除的数量小于等于m
+    if tnt <= m:
+        return True
+    return False
+    
+
+left,right = 1,l
+ans = 0
+while left<=right:
+    mid = (left+right) // 2
+    if check(mid):
+        ans = mid
+        left = mid+1
+    else:
+        right = mid-1 
+print(ans)
+```
+
+## 例题：[肖恩的乘法表](https://www.lanqiao.cn/problems/3404/learning/?page=1&first_category_id=1&tags=%E6%9E%9A%E4%B8%BE,%E6%A8%A1%E6%8B%9F,%E5%89%8D%E7%BC%80%E5%92%8C,%E5%B7%AE%E5%88%86,%E4%BA%8C%E5%88%86,%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2,%E8%B4%AA%E5%BF%83,%E4%BD%8D%E8%BF%90%E7%AE%97,%E5%8F%8C%E6%8C%87%E9%92%88&tag_relation=union&name=%E8%82%96%E6%81%A9%E7%9A%84%E4%B9%98%E6%B3%95%E8%A1%A8)
+
+通读完题目之后，感觉用暴力实现是很简单的。
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+n,m,k = map(int , input().split())
+ls = []
+for i in range(1,n+1):
+    for j in range(1,m+1):
+        ls.append(i*j)
+ls.sort()
+print(ls[k-1])
+```
+然后就时间没问题，但是全部**超过内存限制**了。内存在270000+kb，恰好超了内存一点点。
+
+我们尝试一下减小内存：
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+n,m,k = map(int , input().split())
+ls = []
+for i in range(1,n+1):
+    for j in range(1,m+1):
+        ls.append(i*j)
+        ls.sort()
+        if len(ls)>k:
+            ls = ls[:k]
+print(ls[k-1])
+```
+
+妈的测评系统总是突然之间就尼玛炸了……但是我从测评结果进去，这么做时间又炸了……
+
+用二分的思路，我们就是要**猜第k小的数字是多少**，然后看比这个数小的数字有多少个。
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+n,m,k = map(int , input().split())
+
+def check(x):
+    cnt = 0
+    #第i行的数字为i,2i,3i,4i…mi
+    #因为i*j<=x，所以j<=x//i
+    for i in range(1,n+1):
+        #考虑m很小的情况
+        cnt += min(m,x//i)
+    return cnt
+
+left , right=1,n*m
+while left <= right:
+    mid = (left + right)//2
+    if check(mid) >= k:
+        #大了
+        #等于在哪，ans的更新就在哪
+        #这里更新ans是与check函数有关的，check函数统计的是小于等于该数的总数，数字有重复
+        ans = mid
+        right = mid - 1
+    else:
+        left = mid + 1
+print(ans)
+```
+
+二分答案的习题：还得练
+
+![alt text](二分答案.jpg)
+
+ 刚才打开倍增的视频，发现居然是C++的……算了几块钱的课能看多少是多少吧。
+
+ # 哈希
+
+主要就是要复习**字典**的使用。字典在判断一个数字是否在字典中的时间复杂度为O(1)级别。
+
+## 例题：[两数之和](https://leetcode.cn/problems/two-sum/)
+
+```python
+#最终返回的是一个列表
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        dic = {}
+        n = len(nums)
+        #判断在该数之前有没有凑起来正好是target的数字
+        for i,x in enumerate(nums):
+            if dic.get(target-x) is not None:
+                return [i,dic[target-x]]
+            dic[x] = i       
+```
+
+# 倍增
+
+# 位运算
+
+还要自己找一下资源，先放个坑在这里
