@@ -1,7 +1,7 @@
 ---
 title: 搞点Python778——day10
 published: 2025-04-09
-description: ''
+description: 'Review the search algorithm'
 image: '1.jpg'
 tags: [Study,Python,DFS]
 category: 'Python'
