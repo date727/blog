@@ -28,6 +28,10 @@ lang: 'zh_CN'
   - [例题：数字王国之军训排队](#例题数字王国之军训排队)
   - [例题：特殊的多边形](#例题特殊的多边形)
 - [记忆化搜索](#记忆化搜索)
+  - [是什么？](#是什么-2)
+  - [例题：斐波拉契数列](#例题斐波拉契数列)
+  - [例题：混境之地5](#例题混境之地5)
+  - [例题：地宫寻宝](#例题地宫寻宝)
 
 # DFS-基础
 
@@ -498,3 +502,127 @@ for l,r in ls:
 
 # 记忆化搜索
 
+## 是什么？
+
+通过**记录**已经遍历过的状态的信息，避免对同一状态的重复遍历
+
+记忆化 = dfs + 额外字典
+
+## 例题：斐波拉契数列
+
+求f(n)，对1e9+7取模
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+sys.setrecursionlimit(100000)
+dic = {0:1,1:1}
+def f(n):
+    if n in dic.keys():
+        return dic[n]
+    dic[n] = (f(n-1)+f(n-2))%1000000007
+    return dic[n]
+
+n = int(input())
+print(f(n))
+```
+
+卧槽python你个老六你他妈又写好了
+
+```python
+from functools import lru_cache
+#直接把普通递归变成记忆化递归
+@lru_cache(maxsize=None)
+#不用改动原本的递归函数
+def f(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return f(n-1)+f(n-2)
+n = int(input())
+print(f(n))
+```
+
+## 例题：[混境之地5](https://www.lanqiao.cn/problems/3820/learning/?page=1&first_category_id=1&tag_relation=union&problem_id=3820)
+
+其实我感觉这个题目最重要的教训在于map本身就是一个关键词，最好还是不要作为变量。遇到那种**list object is not callable**的错误要考虑这种关键词用作变量名称的可能。
+
+```python
+#因为先往下，再往右和线往右再往下的结果是一样的，所以可以用记忆化搜索的方式
+from functools import lru_cache
+@lru_cache(maxsize = None)
+def dfs(x,y,z):
+    #到达终点
+    if x == c-1 and y == d-1:
+        return True
+
+    for dx,dy in [(-1,0),(1,0),(0,-1),(0,1)]:
+        xx = x+dx
+        yy = y+dy
+        if xx < 0 or xx >= n or yy < 0 or yy >=m:
+            continue
+        #新坐标比旧坐标低，能够走到新坐标
+        if Map[xx][yy] < Map[x][y]:
+            if dfs(xx,yy,z):
+                return True
+        #可以用喷气背包
+        elif Map[xx][yy] < Map[x][y] + k and z==False:
+            if dfs(xx,yy,True):
+                return True          
+
+n,m,k = map(int , input().split())
+a,b,c,d = map(int , input().split())
+Map = []
+for i in range(n):
+    Map.append(list(map(int , input().split())))
+
+if dfs(a-1,b-1,False):
+    print("Yes")
+else:
+    print("No")
+```
+
+## 例题：[地宫寻宝](https://www.lanqiao.cn/problems/216/learning/?page=1&first_category_id=1&tag_relation=union&problem_id=216)
+
+这个题目相比于之前就是对运动方向进行了严格限定。遇到了之前就比较常见的问题，一个题目没有想清楚函数是处理当前状态还是下一状态的时候，脑子里突然乱掉了。学习这道题的处理方法吧！
+
+```python
+import sys
+from functools import lru_cache
+sys.setrecursionlimit(100000)
+input = lambda:sys.stdin.readline().strip()
+n,m,k = map(int,input().split())
+Map = []
+
+#当前坐标，之前的宝物数量与最大值
+@lru_cache(maxsize = None)
+def dfs(x,y,sum_num,max_num):
+    #递归出口
+    if x == n-1 and y == m-1:
+        if sum_num == k:
+            return 1
+        if sum_num == k-1 and max_num < Map[x][y]:
+            return 1
+        return 0
+    ans = 0
+    #方案数 = 右边的方案数 + 下面的方案数
+    for dx , dy in [(1,0),(0,1)]:
+        xx = x+dx
+        yy = y+dy
+        if xx < 0 or xx >= n or yy < 0 or yy >= m:
+            continue
+        #当前不选择宝物，走到(xx,yy)
+        ans += dfs(xx,yy,sum_num,max_num)
+        #当前选择宝物，走到(xx,yy)
+        #注意这里是准备拿现在的宝物
+        if max_num < Map[x][y]:
+            ans += dfs(xx,yy,sum_num+1,Map[x][y])
+        ans %= 1000000007
+    return ans
+
+for i in range(n):
+    Map.append(list(map(int , input().split())))
+print(dfs(0,0,0,-1))
+```
+
+完结撒花！
