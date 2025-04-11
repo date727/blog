@@ -14,6 +14,20 @@ lang: 'zh_CN'
   - [n重循环](#n重循环)
   - [例题：分糖果](#例题分糖果)
   - [例题：买瓜](#例题买瓜)
+- [DFS-回溯](#dfs-回溯)
+  - [是什么？](#是什么)
+  - [回溯模板](#回溯模板)
+    - [排列模板题](#排列模板题)
+    - [子集模板题](#子集模板题)
+  - [例题:N皇后](#例题n皇后)
+  - [例题：小朋友崇拜圈](#例题小朋友崇拜圈)
+  - [例题：全球变暖](#例题全球变暖)
+- [DFS-剪枝](#dfs-剪枝)
+  - [是什么？](#是什么-1)
+  - [分类](#分类)
+  - [例题：数字王国之军训排队](#例题数字王国之军训排队)
+  - [例题：特殊的多边形](#例题特殊的多边形)
+- [记忆化搜索](#记忆化搜索)
 
 # DFS-基础
 
@@ -133,3 +147,354 @@ print(ans)
 超时是搜索的宿命（抽烟）。放宽心吧我只能说。
 
 ![alt text](image-1.png)
+
+# DFS-回溯
+
+## 是什么？
+
+DFS的一种，用到了剪枝的技巧。强调走过的路打标记。
+
+1. 排列树
+
+![alt text](排列树.jpg)
+
+2. 子集树
+
+![alt text](子集树.jpg)
+
+## 回溯模板
+
+1. 每次选择的数字打标记——vis数组；
+2. 记录路径——path数组；
+3. 回溯总流程：打标机-记录路径-下一层-回到上一层-清楚标记
+
+![](image-2.png)
+
+### 排列模板题
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+
+def dfs(depth):
+    #回到上一层
+    if depth == n:
+        print(path)
+        return
+    
+    for i in range(1,n+1):
+        #未标记数字
+        if vis[i]:
+            continue
+        #打表记
+        vis[i] = True
+        #记录路径
+        path.append(i)
+        #下一层
+        dfs(depth+1)
+        #消除标记
+        vis[i] = False
+        path.pop(-1) #弹出列表最后一个元素
+
+n = int(input())
+vis = [False] * (n+1)
+path = []
+dfs(0)
+```
+
+输入3可以得到：
+
+```python
+[1, 2, 3]
+[1, 3, 2]
+[2, 1, 3]
+[2, 3, 1]
+[3, 1, 2]
+[3, 2, 1]
+```
+
+### 子集模板题
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+
+def dfs(depth):
+    #回到上一层
+    if depth == n:
+        print(path)
+        return
+    
+    #不需要用vis进行标记
+    #选择该数字
+    path.append(ls[depth])
+    dfs(depth+1)
+    path.pop(-1)
+
+    #不选择该数字
+    dfs(depth+1)
+
+n = int(input())
+ls = list(map(int , input().split()))
+vis = [False] * (n+1)
+path = []
+dfs(0)
+```
+
+输入：
+
+```python
+3
+1 2 3
+```
+
+得到输入：
+
+```python
+[1, 2, 3]
+[1, 2]
+[1, 3]
+[1]
+[2, 3]
+[2]
+[3]
+[]
+```
+
+## 例题:[N皇后](https://www.lanqiao.cn/problems/1508/learning/?page=1&first_category_id=1&tag_relation=union&name=N%E7%9A%87%E5%90%8E)
+
+不知道干嘛，这个题也没了。读了一下题目，感觉是有点歧义。探究一下如何保证两条对角线上面没有皇后。
+
+- 从左上到右下
+
+![alt text](image-3.png)
+
+可以看到，同一对角线上的(x,y)**差值**一定。从(1,1)开始，**x-y**的范围为[-N+1,N-1]，因此对于N\*N的图像，总共有(2\*N - 1)条对角线。
+
+- 从左下到右上
+
+![alt text](image-4.png)
+
+可以看到，同一对角线上的(x,y)**和值**一定。从(1,1)开始，**x+y**的范围为[2,2\*N]，因此对于N\*N的图像，总共有(2\*N - 1)条对角线。
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+cnt = 0
+def dfs(depth):
+    #第depth层的皇后，保证一行只有一个皇后
+    if depth == n+1:
+        global cnt
+        cnt += 1
+        return
+
+    for y in range(1,n+1):
+        if vis1[y] is False and vis2[depth-y+n] is False and vis3[depth+y] is False:
+            #打标记
+            vis1[y] = vis2[depth-y+n] = vis3[depth+y] = True
+            #下一层
+            dfs(depth+1)
+            #清空标记
+            vis1[y] = vis2[depth-y+n] = vis3[depth+y] = False
+
+n = int(input())
+#一以下就是剪枝
+#保证列
+vis1 = [False] * (n+1)
+#差的范围为[-N+1,N-1]
+vis2 = [False] * (2*n+1)
+#和的范围为[2,2N]
+vis3 = [False] * (2*n+1)
+dfs(1)
+print(cnt)
+```
+
+## 例题：[小朋友崇拜圈](https://www.lanqiao.cn/problems/182/learning/?page=1&first_category_id=1&tag_relation=union&name=%E5%B0%8F%E6%9C%8B%E5%8F%8B)
+
+说明搜索不仅能用在n重循环中，还可以用在图论上。
+
+**思路**
+
+1. 标记每个走过的点，走到一个走过的地方就停；
+2. 环长计算：对同一个点，两个length相减。
+
+同时，预估一下递归层数，可以对它进行扩大。
+
+```python
+import sys
+#增加深度
+sys.setrecursionlimit(100000)
+input = lambda:sys.stdin.readline().strip()
+n = int(input())
+ls = [0] + list(map(int , input().split()))
+ans = 0
+
+def dfs(x,length):
+    #x是第几个小朋友，length是走的步数
+    if vis[x] != -1:
+        global ans
+        ans = max(ans,length - vis[x])
+        return
+    #标记
+    vis[x] = length
+    dfs(ls[x],length+1)
+
+#直接用vis记录步长就行，同时可以作为是否已经遍历过的依据 
+vis = [-1] * (n+1)
+#找到不同的圆
+for i in range(1,n+1):
+    if vis[i] == -1:
+        dfs(i,0)
+print(ans)
+```
+
+## 例题：[全球变暖](https://www.lanqiao.cn/problems/178/learning/?page=1&first_category_id=1&tag_relation=union&name=%E5%85%A8%E7%90%83)
+
+题意有一些难理解，但是本质上就是找有几块这样的地，上下左右都是'#'。所以这个题目其实需要分成两个步骤：
+
+1. 统计有多少个岛屿；
+2. 统计岛屿里面是否有上下左右都是'#'的地，如果有就不会被完全淹没。
+
+```python
+import sys
+sys.setrecursionlimit(100000)
+input = lambda:sys.stdin.readline().strip()
+n = int(input())
+ls=[]
+for i in range(n):
+    ls.append(list(input()))
+#注意这里的位置变换啊啊啊啊，不要想当然
+d = [(-1,0),(1,0),(0,-1),(0,1)]
+ans = 0
+
+def dfs(x,y):
+    vis[x][y] = 1
+    count = 0
+    for dx,dy in d:
+        if 0 <= x+dx <n and 0 <= y+dy <n:
+            #周围是陆地
+            if ls[x+dx][y+dy] == '#':     
+                count += 1
+                #没有遍历过
+                if vis[x+dx][y+dy] == 0:
+                    dfs(x+dx,y+dy)
+    if count == 4:
+        global f
+        f = 1
+    return
+
+vis = [[0]*n for i in range(n)]    
+for i in range(n):
+    for j in range(n):
+        if vis[i][j] == 0 and ls[i][j] == '#':
+            #当前岛屿是否存在标记
+            f = 0
+            dfs(i,j)
+            #注意这是没有高地才加一
+            if f == 0:
+                ans += 1
+print(ans)
+```
+
+很漂亮（大哭）
+
+![alt text](image-5.png)
+
+# DFS-剪枝
+
+## 是什么？
+
+根据当前状态判断后续无解，可以及时停止。
+
+eg.N个正整数有多少个子集之和小于等于K。前面几个数如果达到了K，就可以及时停止。
+
+## 分类
+
+1. 可行性剪枝：状态与题意不符。例如：排列；
+2. 最优性剪枝：当前状态不如最优解。例如：最小值。
+
+## 例题：[数字王国之军训排队](https://www.lanqiao.cn/problems/2942/learning/?page=1&first_category_id=1&tag_relation=union&name=%E6%95%B0%E5%AD%97%E7%8E%8B%E5%9B%BD)
+
+啊啊啊这个自己写对了啊啊啊啊
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+n = int(input())
+ls = list(map(int,input().split()))
+ans = n
+
+def check(l,x):
+    for i in l:
+        if i % x == 0 or x % i == 0:
+            return False
+    return True
+
+def dfs(depth):
+    if depth == n:
+        global ans
+        ans = min(ans,len(teams))
+        return
+    for i in range(len(teams)):
+        if check(teams[i],ls[depth]):
+            teams[i].append(ls[depth])
+            dfs(depth+1) 
+            teams[i].pop(-1)
+    new = [ls[depth]]
+    teams.append(new)
+    dfs(depth+1)
+    teams.pop(-1)
+
+teams = []
+dfs(0)
+print(ans)
+```
+
+## 例题：[特殊的多边形](https://www.lanqiao.cn/problems/3075/learning/?page=1&first_category_id=1&tag_relation=union&name=%E7%89%B9%E6%AE%8A%E7%9A%84%E5%A4%9A%E8%BE%B9%E5%BD%A2)
+
+我感觉比较不清楚的是，怎么保证能够组成一个多边形。例如三角形，1、2、3就无法构成。但是这完全就是数学知识了：
+
+>任意N-1条边之和大于第N条边，可以构成N边形。要注意的是，这里验证N变形不需要验证i边形成立，只需要最后递归出口的地方验证一下就行。
+
+预处理（打表）+前缀和求解答案
+
+```python
+import sys
+input = lambda:sys.stdin.readline().strip()
+t,n = map(int ,input().split())
+r_max = 0
+l_min = 100000
+ls = []
+for i in range(t):
+    l,r = map(int , input().split())
+    l_min = min(l_min,l)
+    r_max = max(r_max,r)
+    ls.append((l,r))
+
+#用单增进行优化
+def dfs(depth,last_num,k):
+    if depth == n:
+        if sum(path) <= 2*last_num:
+            return
+        vis[k] += 1
+        return
+    for i in range(last_num+1,r_max):
+        #剪枝
+        if k * (i ** (n - depth)) > r_max:
+            return
+        path.append(i)
+        dfs(depth+1,i,k * i)
+        path.pop(-1)
+
+vis = [0] * 100001
+path = []
+#类似地，这里也不要想当然，边长是可以等于1的
+dfs(0,0,1)
+for i in range(1,len(vis)):         #构造前缀和数组
+  vis[i] += vis[i-1]
+for l,r in ls:
+    print(vis[r] - vis[l-1])
+```
+
+# 记忆化搜索
+
