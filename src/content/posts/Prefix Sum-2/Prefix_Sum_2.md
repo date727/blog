@@ -3,7 +3,7 @@ title: 搞点Python778——day7
 published: 2025-03-04
 description: 'Learn the prefix sum algorithm'
 image: '2.jpg'
-tags: [Study,Python,Prefix Sum,sort()]
+tags: [Study,Python,Prefix Sum,Sort]
 category: 'Python'
 draft: false
 lang: 'zh_CN'
