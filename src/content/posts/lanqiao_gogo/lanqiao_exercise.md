@@ -5,7 +5,7 @@ description: 'Record of Solving Algorithm Problem Sets'
 image: 'lanqiao.jpg'
 tags: [Study,Python]
 category: 'Python'
-draft: false 
+draft: true 
 lang: 'zh_CN'
 ---
 
