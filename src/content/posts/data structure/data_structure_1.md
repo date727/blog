@@ -1,7 +1,7 @@
 ---
 title: 搞点Python778——day11
 published: 2025-07-17
-description: ''
+description: 'Review data structures.'
 image: '1.jpg'
 tags: [Study,Python,Data Structure]
 category: 'Python'
