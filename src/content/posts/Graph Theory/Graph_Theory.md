@@ -5,7 +5,7 @@ description: 'Study Graph Theory and Basic Data Structure'
 image: '1.jpg'
 tags: [Study,Python,Graph Theory,Data Structure]
 category: 'Python'
-draft: false 
+draft: true
 lang: 'zh_CN'
 ---
 
