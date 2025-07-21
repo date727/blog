@@ -208,7 +208,9 @@ while r[head] != n+1:
 
 ## 栈
 
-## 数组模拟
+### 数组模拟
+
+栈从下标为1开始加入。
 
 1. value:stk[N]
 2. 栈顶:tt
@@ -235,13 +237,40 @@ if tt > 0: not empty
 else:empty
 ```
 
+### 例题：[B3614 【模板】栈](https://www.luogu.com.cn/problem/B3614)
+
+```python
+import sys
+input = lambda:sys.stdin.readline()
+t = int(input())
+for _ in range(t):
+	n = int(input())
+	stk = [0] * (n+1)
+	tt = 0
+	for i in range(n):
+		od = list(input().split())
+		if od[0] == "push":
+			tt += 1
+			stk[tt] = od[1]
+		elif od[0] == "query":
+			if tt > 0: print(stk[tt])
+			else: print("Anguei!")
+		elif od[0] == "pop":
+			if tt > 0: tt -= 1
+			else: print("Empty")
+		else: print(tt)
+```
+
 ## 队列
 
 ### 数组模拟
 
+队列从下标为0开始加入。
+
 1. value:q[N]
 2. 头:hh
 3. 尾:tt
+
 ### 代码模板
 
 ```python
@@ -266,6 +295,32 @@ else:empty
 # 取出队头或者队尾元素
 q[hh]
 q[tt]
+```
+
+### 例题：[B3616 【模板】队列](https://www.luogu.com.cn/problem/B3616)
+
+注意区分清楚hh为队首，tt为队尾，在队尾加入，在队首输出
+
+```python
+import sys
+input = lambda:sys.stdin.readline()
+n = int(input())
+q = [0] * n
+hh = 0
+tt = -1
+for i in range(n):
+	od = list(map(int,input().split()))
+	if od[0] == 1:
+		tt += 1
+		q[tt] = od[1]
+	elif od[0] == 2:
+		if hh <= tt: hh += 1
+		else: print("ERR_CANNOT_POP")
+	elif od[0] == 3:
+		if hh <= tt: print(q[hh])
+		else: print("ERR_CANNOT_QUERY")
+	else:
+		print(tt-hh+1)
 ```
 
 # 单调栈和单调队列
@@ -300,6 +355,7 @@ stk = [0] * (n+1)
 tt = 0
 ans = [0] * n
 for i in range(n,0,-1):
+	# 维护单调性
 	while tt!=0 and a[stk[tt]]<= a[i]: tt-=1
 	ans[i-1] = stk[tt]
 	tt += 1
@@ -311,17 +367,41 @@ print(*ans)
 
 - 应用场景：求解**滑动窗口**中的最小值
 
-**考虑**：[-3,-1,3]，-3和-1一定不会当成最小值输出
-
 **一般化**：存在a<sub>i</sub> > a<sub>i+1</sub>，就可以把a<sub>i</sub> 删掉，最终变成一个严格单调上升的队列。
 
 ![alt text](image-3.png)
 
-因此最小值就是队列的头（q[hh]）
+因此最小值就是队列的头（q[hh]）。
 
-## 例题模板：[滑动窗口](https://www.acwing.com/problem/content/156/)
+同时,单调队列习惯上存储的是数组的下标,便于控制队首是否应该出队
+
+## 例题模板：[P1886 滑动窗口 /【模板】单调队列](https://www.luogu.com.cn/problem/P1886)
 
 ```python
+import sys
+input = lambda:sys.stdin.readline()
+n,k = map(int,input().split())
+a = list(map(int,input().split()))
+q = [0] * n # 最小值
+hh = 0
+tt = -1
+for i in range(n):
+	# 达到滑动窗口的大小
+	# 队首移出处理，至多只能移出去一个
+	if hh <= tt and i-k >= q[hh]: hh+=1
+	while hh <= tt and a[q[tt]] >= a[i]: tt -= 1
+	tt += 1
+	q[tt] = i
+	if i >= k-1: print(a[q[hh]],end = ' ')
+print()
+hh = 0
+tt = -1
+for i in range(n):
+	if hh <= tt and i-k >= q[hh]: hh+=1
+	while hh <= tt and a[q[tt]] <= a[i]: tt -= 1
+	tt += 1
+	q[tt] = i
+	if i >= k-1: print(a[q[hh]],end = ' ')
 ```
 
 # KMP
@@ -343,5 +423,74 @@ p[1,j] = p[i-j+1,i]
 
 如果在p[i]的位置发现不匹配，就可以把p[j]移动到p[i]的位置，前面理论上是不用检验一定可以匹配成功的。
 
-重复上述操作。
+重复上述操作，就可以找到所有字串存在的位置。
 
+因此kmp分成两个**步骤**：
+
+## 预处理ne数组原理
+
+- ne[1] = 0
+- 假设已知ne[i-1]，比较p[ne[i-1]+1]和p[i]:
+- 如果p[ne[i-1]+1]==p[i]：ne[i] = ne[i-1]+1
+- 如果p[ne[i-1]+1]!=p[i]: 就把ne[i-1]移动到i-1的位置上，i-1之前还是吻合的。继续比较p[ne[i-1]+1]==p[i]。一直到ne[i-1] = 0就停止，此时说明只有与第一个字符相等或不相等的可能。
+
+用案例说明：
+
+```python
+p = "abababab"
+```
+
+下标从1开始。设定ne[1] = 0
+
+对于ne[2]：比较p[ne[i-1]+1]和p[i]。ne[i-1] = 0，已经退出循环
+
+p[ne[i-1]+1] = p[1] = 'a'，不相等，所以ne[2] = 0
+
+对于ne[3]：比较p[ne[i-1]+1]和p[i]。ne[i-1] = 0，已经退出循环
+
+p[ne[i-1]+1] = p[1] = 'a'，相等，所以ne[3] = ne[i-1]+1
+
+对于ne[4]：比较p[ne[i-1]+1]和p[i]。p[ne[i-1]+1] = p[2] = 'b'，相等，所以ne[4] = ne[i-1]+1 = 2
+
+以此类推。
+
+![alt text](9d8afdf2214de12055ce776a977eeac.png)
+
+在具体实现中，可以用i遍历子串，用j来代表ne[i-1]的数值，在本轮循环中，如果配对成功，则j先自增，再ne[i] = j，如果配对不成功，则j不用自增，ne[i] = j，并且j的数值可以直接用于ne的下一位的计算中。
+
+## 字串匹配原理
+
+与ne数组生成原理基本类似，基本思想是如果本位不能匹配，就把前一位上的数用ne[i-1]来替换，对应匹配上的数量会减少，但是能够保证前面所有的字符串是能够匹配上的。
+
+设定i遍历大串，用j遍历小串，j达到最长时，匹配数量加一，并且j变值为ne[j]，尽可能利用前面已经匹配的信息
+
+## 例题：[P3375 【模板】KMP](https://www.luogu.com.cn/problem/P3375)
+
+这里只要是注意下标是否从0开始，确定边界和输出.
+
+```python
+import sys
+input = lambda:sys.stdin.readline()
+s1 = input().rstrip()
+s2 = ' ' + input().rstrip()
+le = len(s2)
+ne = [0] * le
+j = 0
+# 预处理ne[1] = 0
+for i in range(2,le):
+	while j!= 0 and s2[j+1] != s2[i]: j = ne[j]
+	if s2[j+1] == s2[i]: j += 1
+	ne[i] = j
+# 字串匹配
+L = len(s1)
+j = 0
+for i in range(L):
+	while j!= 0 and s2[j+1] != s1[i]: j = ne[j]
+	if s1[i] == s2[j+1]: j += 1
+	if j == le-1:
+		print(i-le+3)
+		j = ne[j]
+print(*ne[1:])
+```
+
+第一节课圆满结束！
